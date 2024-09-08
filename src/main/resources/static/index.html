@@ -48,6 +48,13 @@
                 li.textContent = `${msg.name} : ${msg.timeStamp} - ${msg.message}` ;
                 document.getElementById("list").appendChild(li);
             })
+            stompClient.subscribe("/topic/rideRequest",function (data) {
+                //whenever passenger book booking passenger details will be send to this socket service and popup will come for confirming ride request
+                // and after confirming ride request socket service will assign driver to particular booking and update into booking table.
+
+                const response=confirm(`You hve new ride request from passenger: ${JSON.parse(data.body).passengerId}. Do you want to accept it?`);
+                stompClient.send("/app/rideResponse",{},JSON.stringify({response}))
+            })
         })
     }
 
