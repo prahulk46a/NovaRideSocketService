@@ -19,4 +19,6 @@ public class RideRequestDto {
 
     private List<Long>driverIds;//Some of the response of booking should pass to update those booking details
 
+    private Long bookingId;
+
 }
