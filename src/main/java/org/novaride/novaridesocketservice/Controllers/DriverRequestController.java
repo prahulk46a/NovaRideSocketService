@@ -1,6 +1,7 @@
 package org.novaride.novaridesocketservice.Controllers;
 
 import org.novaride.novaridesocketservice.Dtos.*;
+import org.novaride.novaridesocketservice.producers.ProducerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -19,9 +20,18 @@ import java.util.Optional;
 public class DriverRequestController {
     SimpMessagingTemplate simpMessagingTemplate;
     RestTemplate restTemplate ;
-    public DriverRequestController(SimpMessagingTemplate simpMessagingTemplate) {
+    private final ProducerService producerService;
+
+    public DriverRequestController(SimpMessagingTemplate simpMessagingTemplate,ProducerService producerService) {
         this.simpMessagingTemplate = simpMessagingTemplate;
         restTemplate = new RestTemplate();
+        this.producerService = producerService;
+    }
+
+    @GetMapping
+    public Boolean help(){
+        producerService.publishMessage("sample-topic", "New Driver has been allocated");
+        return true;
     }
 
 
